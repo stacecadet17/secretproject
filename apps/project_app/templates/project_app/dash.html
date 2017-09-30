@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>Success! Welcome {{ user.first_name }}!</h1>
+        {% if messages %}
+          {% for x in messages %}
+            <p>{{ x.message }}</p>
+          {% endfor %}
+        {% endif %}
+        <table>
+		<thead>
+			<tr>
+				<th>Item</th>
+				<th>Added by</th>
+				<th>Date Added</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			   {% for item in all_items %}
+			<tr>
+				<td><a href="/wish/{{item.id}}">{{item.name}}</a></td>
+				<td>{{ item.adder.first_name }}</td>
+				<td>{{ item.created_at | date:"M d, Y" }}</td>
+				{% if item.adder.id == request.session.id %}
+				<td>
+					<form action="/delete/{{ item.id  }}" method="POST">
+						{% csrf_token %}
+						<input type="submit" value="Delete">
+					</form>
+				</td>
+				{% else %}
+				<td>
+					<form action="/remove/{{ item.others.id }}" method="POST">
+						{% csrf_token %}
+						<input type="submit" value="Remove from my Wishlist">
+					</form>
+				</td>
+				{% endif %}
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	<h3>Other Users' Wish List</h3>
+	<table>
+		<thead>
+			<tr>
+				<th>Item</th>
+				<th>Added by</th>
+				<th>Date Added</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for i in other_items  %}
+			<tr>
+				<td><a href="/wish/{{ i.id }}">{{ i.name }}</a></td>
+				<td>{{ i.adder.name }}</td>
+				<td>{{ i.created_at | date:"M d, Y" }}</td>
+				<td>
+					<form action="/add/{{ i.id }}" method="POST">
+						{% csrf_token %}
+						<input type="submit" value="Add to my Wishlist">
+					</form>
+				</td>
+			{% endfor %}
+		</tbody>
+	</table>
+  <a href="/wish/create">Add Item</a>
+  </body>
+</html>

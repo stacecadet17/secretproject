@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <a href='/success'>Home</a>
+    <a href='/logout'>Logout</a>
+    <h1>{{ item.name }}</h1>
+    <h2>Others who also added this product:</h2>
+      {% for user in users %}
+          <p>{{ user.name }}</p>
+      {% endfor %}
+  </body>
+</html>

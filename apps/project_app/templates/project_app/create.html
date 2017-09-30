@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <a href='/success'>Home</a>
+    <a href='/logout'>Logout</a>
+    <h1>Create a New Wishlist Item!</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    <form action='/new' method='POST'>
+      {% csrf_token %}
+      <label>Item:</label>
+        <input type='text' name='name'>
+      <input type='submit' valud='add'>
+    </form>
+  </body>
+</html>
